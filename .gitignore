@@ -1,0 +1,23 @@
+# Secrets and credentials
+.env
+credentials.json
+token.json
+
+# Temporary processing files
+.tmp/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.venv/
+
+# Database (user data)
+*.db
+
+# Windows artifacts
+nul
+
+# IDE
+.claude/
