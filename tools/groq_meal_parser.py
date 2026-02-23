@@ -161,31 +161,6 @@ def parse_meal(
 
     client = Groq(api_key=api_key)
 
-    # JSON schema for structured output
-    json_schema = {
-        "type": "object",
-        "properties": {
-            "items": {
-                "type": "array",
-                "items": {
-                    "type": "object",
-                    "properties": {
-                        "food_name": {"type": "string"},
-                        "estimated_weight_g": {"type": "number"},
-                        "calories": {"type": "number"},
-                        "protein_g": {"type": "number"},
-                        "fat_g": {"type": "number"},
-                        "carbs_g": {"type": "number"},
-                        "confidence": {"type": "string", "enum": ["high", "medium", "low"]},
-                    },
-                    "required": ["food_name", "estimated_weight_g", "calories", "protein_g", "fat_g", "carbs_g", "confidence"],
-                },
-            },
-            "notes": {"type": "string"},
-        },
-        "required": ["items", "notes"],
-    }
-
     # Try each model in the fallback chain
     last_error = None
     was_rate_limited = False
@@ -201,14 +176,7 @@ def parse_meal(
                     ],
                     temperature=0.1,
                     max_tokens=2048,
-                    response_format={
-                        "type": "json_object",
-                        "json_schema": {
-                            "name": "meal_parse_result",
-                            "strict": True,
-                            "schema": json_schema,
-                        },
-                    },
+                    response_format={"type": "json_object"},
                 )
 
                 raw_text = response.choices[0].message.content
